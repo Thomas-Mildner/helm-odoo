@@ -1,0 +1,119 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "..fullname" . }}-nginx-conf
+data:
+  nginx.conf: |
+    upstream odoo {
+      server 0.0.0.0:8069;
+    }
+    upstream odoochat {
+      server 0.0.0.0:8072;
+    }
+    map $http_upgrade $connection_upgrade {
+      default upgrade;
+      ''      close;
+    }
+    server {
+      listen 80;
+
+      client_max_body_size 0;    
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-SSL on;
+      proxy_set_header X-Forwarded-Protocol ssl;
+      proxy_set_header X-Forwarded-Proto https;
+    
+      location /websocket {
+        proxy_pass http://odoochat;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP $remote_addr;
+      }
+    
+      location / {
+        proxy_redirect off;
+        proxy_pass http://odoo;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP $remote_addr;
+      }
+      gzip_types text/css text/scss text/plain text/xml application/xml application/json application/javascript;
+      gzip on;
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "..fullname" . }}-maintenance-page
+data:
+  maintenance.html: |-
+    <?php
+    $protocol = isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : '';
+    if ( ! in_array( $protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0' ), true ) ) {
+      $protocol = 'HTTP/1.0';
+    }
+    header( "$protocol 503 Service Unavailable", true, 503 );
+    header( 'Content-Type: text/html; charset=utf-8' );
+    header( 'Retry-After: 30' );
+    ?>
+
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <title>Site Maintenance</title>
+        <meta charset="utf-8">
+        <meta name="robots" content="noindex">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+          body { text-align: center; padding: 20px; font: 20px Helvetica, sans-serif; color: #efe8e8; background-color:#2e2929}
+          @media (min-width: 768px){
+            body{ padding-top: 150px; }
+          }
+          h1 { font-size: 50px; }
+          article { display: block; text-align: left; max-width: 650px; margin: 0 auto; }
+          a { color: #dc8100; text-decoration: none; }
+          a:hover { color: #efe8e8; text-decoration: none; }
+        </style>
+      </head>
+      <body>
+        <article>
+            <h1>{{ .Release.Name }} will be back soon!</h1>
+            <div>
+                <p>Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment. If you need to you can always <a href="mailto:#">contact us</a>, otherwise it will be back online shortly!</p>
+                <p>{{ .Values.maintenance.signature }}</p>
+            </div>
+        </article>
+      </body>
+    </html>
+  maintenance.css: |-
+    /* CSS GOES HERE */    
+  default.conf: |-
+    # default.conf
+    server { 
+      listen 80 default_server;
+      server_name  _ ;
+
+      location / {
+        if (-f /usr/share/nginx/html/maintenance/maintenance.html) {
+          return 503;
+        }
+      }
+      
+      # for all routes, return maintenance page
+      error_page 503 @maintenance;
+      location @maintenance {
+        root    /usr/share/nginx/html/maintenance/;
+        rewrite ^(.*)$ /maintenance.html break;
+      }
+      
+      # allow images and css to be retrieved
+      location ~* \.(png|jpg|jpeg|css) {
+        root /usr/share/nginx/html/maintenance/;
+      }
+    }
