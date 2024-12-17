@@ -33,7 +33,7 @@ postgresql:
     # In this case, we are using the dbfilter option in the odoo section
     database: odoo
     username: odoo
-   # password: managed by external secrets 
+   # password: managed by external secrets
     password: mySecuredPassword
     admin_passwd: mySecuredPassword
     existingSecret: odoo-postgresql-secret
@@ -91,7 +91,7 @@ persistence:
   size: 10Gi
 
   # Name of an existing claim
-  # existingClaim: 
+  # existingClaim:
 
 # Additional environment variables
 # extraEnv:
@@ -107,7 +107,7 @@ podSecurityContext: {}
 
 statefulSetSecurityAnnotations: {}
 
-securityContext: 
+securityContext:
   fsGroup: 101
   # capabilities:
   #   drop:
