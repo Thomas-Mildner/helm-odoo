@@ -83,6 +83,7 @@ odoo:
 # Use an existing secret for the Odoo configuration instead of generating one
 existingSecret:
   enabled: false
+  name: ""
 
 persistence:
   enabled: false
