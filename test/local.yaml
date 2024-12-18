@@ -33,7 +33,7 @@ postgresql:
     database: odoo
     username: odoo
     password: mySecuredPassword
-    admin_passwd: mySecuredPassword
+    admin_password: mySecuredPassword
     existingSecret: odoo-postgresql-secret
     secretKeys:
       adminPasswordKey: postgresql-admin-password

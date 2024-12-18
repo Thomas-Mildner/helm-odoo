@@ -29,19 +29,18 @@ postgresql:
   ## If false, use an external postgresql database
   enabled: true
   auth:
-    # Database name should be false if you are using a multi-tenant setup
+    # Database name should be set as false if you are using a multi-tenant setup
     # In this case, we are using the dbfilter option in the odoo section
     database: odoo
     username: odoo
-   # password: managed by external secrets
+   # password: managed by a Kubernetes secret, you could use existing one
     password: mySecuredPassword
-    admin_passwd: mySecuredPassword
+    admin_password: mySecuredPassword
     existingSecret: odoo-postgresql-secret
     secretKeys:
       adminPasswordKey: postgresql-admin-password
       userPasswordKey: postgresql-password
   ## host of the external postgresql database
-  # external : "10.7.121.11"
   host: "odoo-postgresql"
   port: 5432
   primary:
@@ -51,7 +50,7 @@ postgresql:
 odoo:
   init:
     enabled: false
-    modules:
+    modules: base,web
   update:
     enabled: true
     modules: all
@@ -83,7 +82,6 @@ odoo:
 # Use an existing secret for the Odoo configuration instead of generating one
 existingSecret:
   enabled: false
-  name: ""
 
 persistence:
   enabled: false
@@ -96,6 +94,9 @@ persistence:
 
 # Additional environment variables
 # extraEnv:
+
+# Additional environment variables from secrets or configmaps
+# extraEnvFrom:
 
 imagePullSecrets: []
 nameOverride: ""

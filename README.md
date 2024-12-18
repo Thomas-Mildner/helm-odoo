@@ -63,6 +63,14 @@ The following table lists the configurable parameters of the plausible-analytics
 
 See the [values.yaml](values.yaml) file for more information.
 
+### Use external Secret for Odoo configuration
+
+You can use an external secret for the Odoo configuration.
+
+In the `values.yaml` file, set the `existingSecret.enabled` parameter to `true`.
+Then, you need to have a Secret in your namespace with the following name: `your-release-name`-odoo-odoo-conf
+Or if you set the `fullnameOverride` parameter, the Secret name will be `fullnameOverride`-odoo-conf.
+
 ## Local Setup for development
 
 Create a kind cluster:
