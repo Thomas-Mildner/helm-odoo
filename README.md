@@ -6,9 +6,6 @@
 
 This [Helm](https://helm.sh/) chart installs `Odoo` in a [Kubernetes](https://kubernetes.io/) cluster. 
 
-> [!WARNING]
-> This helm chart is a work in progress.
-
 > [!IMPORTANT]
 > This helm chart is designed for @IMIO specific needs and is not intended to resolve all use cases. But we are open to contributions and suggestions to improve this helm chart.
 > This helm chart runs an Odoo in version 16.0, it may not work with other versions.
@@ -63,9 +60,9 @@ The following table lists the configurable parameters of the plausible-analytics
 
 See the [values.yaml](values.yaml) file for more information.
 
-### Use external Secret for Odoo configuration
+### Use an existing Secret for Odoo configuration
 
-You can use an external secret for the Odoo configuration.
+You can use an existing secret for the Odoo configuration.
 
 In the `values.yaml` file, set the `existingSecret.enabled` parameter to `true`.
 Then, you need to have a Secret in your namespace with the following name: `your-release-name`-odoo-odoo-conf
