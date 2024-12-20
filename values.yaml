@@ -83,6 +83,14 @@ odoo:
 existingSecret:
   enabled: false
 
+# Use external-secrets.io for Odoo configuration instead of generating one
+externalsecrets:
+  enabled: false
+  secretStoreRef:
+    name: vault-backend
+    postgresqlKey:
+    odooKey:
+
 persistence:
   enabled: false
   accessMode: ReadWriteOnce

@@ -68,6 +68,12 @@ In the `values.yaml` file, set the `existingSecret.enabled` parameter to `true`.
 Then, you need to have a Secret in your namespace with the following name: `your-release-name`-odoo-odoo-conf
 Or if you set the `fullnameOverride` parameter, the Secret name will be `fullnameOverride`-odoo-conf.
 
+### Use external-secret.io for Odoo configuration
+
+In the `values.yaml` file, set the `externalsecrets.enabled` parameter to `true`.
+
+You need to have the external-secret.io operator installed in your cluster. See the [external-secrets.io](documentation] for more information.
+
 ## Local Setup for development
 
 Create a kind cluster:

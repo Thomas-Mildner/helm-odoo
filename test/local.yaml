@@ -77,6 +77,19 @@ odoo:
   db_maxconn: 64
   log_level: info
   log_handler: ":INFO"
+
+# Use an existing secret for the Odoo configuration instead of generating one
+existingSecret:
+  enabled: false
+
+# Use external-secrets.io for Odoo configuration instead of generating one
+externalsecrets:
+  enabled: false
+  secretStoreRef:
+    name: vault-backend
+    postgresqlKey:
+    odooKey:
+
 persistence:
   enabled: false
   accessMode: ReadWriteOnce
