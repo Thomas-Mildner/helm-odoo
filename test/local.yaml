@@ -87,8 +87,8 @@ externalsecrets:
   enabled: false
   secretStoreRef:
     name: vault-backend
-    postgresqlKey:
-    odooKey:
+  postgresqlKey:
+  odooKey:
 
 persistence:
   enabled: false
