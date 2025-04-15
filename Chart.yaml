@@ -3,7 +3,7 @@ apiVersion: v2
 name: odoo
 description: An opiniated Helm Chart for deploying Odoo
 type: application
-version: 0.2.5
+version: 0.2.6
 appVersion: "16.0"
 sources:
   - https://github.com/odoo/odoo
@@ -16,6 +16,6 @@ maintainers:
 dependencies:
   - name: postgresql
     alias: postgresql
-    version: 12.8.2
-    repository: https://charts.bitnami.com/bitnami
+    version: 14.x.x
+    repository: oci://registry-1.docker.io/bitnamicharts
     condition: postgresql.enabled
