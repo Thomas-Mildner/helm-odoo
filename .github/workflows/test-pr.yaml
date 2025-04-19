@@ -10,5 +10,5 @@ jobs:
       - name: Lint and Test Charts
         uses: IMIO/gha/helm-test-notify@v4
         with:
-          HELM_RELEASE: plausible-analytics
-          HELM_NAMESPACE: plausible-analytics
+          HELM_RELEASE: odoo
+          HELM_NAMESPACE: odoo
