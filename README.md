@@ -8,9 +8,12 @@ This [Helm](https://helm.sh/) chart installs `Odoo` in a [Kubernetes](https://ku
 
 > [!IMPORTANT]
 > This helm chart is designed for @IMIO specific needs and is not intended to resolve all use cases. But we are open to contributions and suggestions to improve this helm chart.
-> This helm chart runs an Odoo in version 16.0, it may not work with other versions.
+> This Helm chart runs Odoo version 16.0 and has also been tested with later versions. It may not work with earlier versions.
 
 ## Prerequisites
+
+> [!NOTE]
+> For production environments, it is recommended to use [CloudNativePG](https://github.com/cloudnative-pg/cloudnative-pg) for PostgreSQL. The bundled chart is primarily intended for testing and development purposes. Be also aware of the upcoming changes to the bitnami catalog described in this [issue](https://github.com/bitnami/containers/issues/83267). 
 
 - Kubernetes cluster 1.18+
 - Helm 3.8.0+
